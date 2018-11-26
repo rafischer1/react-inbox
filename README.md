@@ -1,6 +1,7 @@
 # React-Inbox
 
 ## Component Hierarchy
+['Inbox' Style Guide](https://galvanize-inbox-styleguide.herokuapp.com/)
 
 ### An App component
 ### A Messages (or MessageList) component
