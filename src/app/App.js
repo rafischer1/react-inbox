@@ -18,7 +18,7 @@ export default class App extends Component {
       subject: post.subject,
       body: post.body
     }
-
+    
     const response = await fetch(`${process.env.REACT_APP_API_URL}/messages`, {
       method: "POST",
       body: JSON.stringify(body),

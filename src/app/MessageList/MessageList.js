@@ -25,8 +25,8 @@ const MessageList = ({messages, starCallback, readCallback}) => {
  
 }
 
-const renderFunction = (read, selected, idx, el, readFunction, starred, starFunction) => {
-  return <div className={`row message ${read} ${selected}`} key={idx}>
+const renderFunction = (read, selected, idx, el, readFunction, starred, starFunction) =>
+  <div className={`row message ${read} ${selected}`} key={idx}>
     <div className="col-xs-1">
       <div className="row">
         <div className="col-xs-2">
@@ -48,6 +48,6 @@ const renderFunction = (read, selected, idx, el, readFunction, starred, starFunc
       </a>
     </div>
   </div>
-}
+
 
 export default MessageList
