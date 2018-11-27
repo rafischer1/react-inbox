@@ -12,23 +12,24 @@ export default class App extends Component {
     }
   }
 
-  async composeMessageCallback(post) {
+  composeMessageCallback = async (post) => {
     console.log("in app.js compose f(X):", post.subject, post.body)
     let body = {
       subject: post.subject,
-      read: false,
-      starred: false,
-      labels: [],
       body: post.body
     }
 
     const response = await fetch(`${process.env.REACT_APP_API_URL}/messages`, {
       method: "POST",
-      mode: "no-cors",
       body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      }, 
     })
     console.log("response to POST:", response)
-  } 
+    this.getMessageState()
+  }
 
   starCallback = async (id) => {
     // console.log('in app.js starred:', id)
@@ -56,7 +57,6 @@ export default class App extends Component {
       messageIds: [id],
       command: "read"
     }
-
     // send starred to the database and update that message 
     const response = await fetch(`${process.env.REACT_APP_API_URL}/messages`, {
       method: "PATCH",
