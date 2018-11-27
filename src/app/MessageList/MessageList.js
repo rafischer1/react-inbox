@@ -10,14 +10,14 @@ const MessageList = ({messages}) => {
             <input type="checkbox" />
           </div>
           <div className="col-xs-2">
-            <i className="star fa fa-star-o"></i>
+            <i className="star fa fa-star-o">&nbsp;&nbsp;&nbsp;&nbsp;</i>
           </div>
         </div>
       </div>
       <div className="col-xs-11">
         <a href="/" target="_blank">
           <div key={y}>
-            {el.subject}
+            &nbsp;&nbsp;&nbsp;&nbsp;{el.subject}
             {/* <p>{el.body}</p> */}
           </div>
         </a>

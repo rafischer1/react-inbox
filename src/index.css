@@ -2,6 +2,11 @@
   margin: 5%;
 }
 
+input {
+  margin: 0px 10px 0px 10px;
+}
+
+
 .message {
   margin-left: 0px;
   padding-top: 8px;
