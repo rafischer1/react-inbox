@@ -1,11 +1,16 @@
 import React from 'react'
 import Labels from '../Labels/Labels'
 
-const MessageList = ({messages, starCallback}) => {
+const MessageList = ({messages, starCallback, readCallback}) => {
 
   const starFunction = (ev) => {
     console.log('star func', ev.target)
     starCallback(ev.target.id)
+  }
+
+  const readFunction = (ev) => {
+    console.log('checked func', ev.target)
+    readCallback(ev.target.id)
   }
   
   return messages.map((el, idx) => {
@@ -19,7 +24,7 @@ const MessageList = ({messages, starCallback}) => {
       <div className="col-xs-1">
         <div className="row">
           <div className="col-xs-2">
-            <input type="checkbox" checked={el.selected} />
+            <input id={el.id} type="checkbox" checked={el.selected} onChange={readFunction} />
           </div>
           <div className="col-xs-2">
             <i id={el.id} className={`star fa ${starred}`} onClick={starFunction}>&nbsp;&nbsp;&nbsp;&nbsp;</i>

@@ -36,6 +36,26 @@ export default class App extends Component {
       messageIds: [id],
       command: "star"
     }
+  
+    // send starred to the database and update that message 
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/messages`, {
+      method: "PATCH",
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      }
+    })
+    console.log(response)
+    this.getMessageState()
+  }
+
+  readCallback = async (id) => {
+    // console.log('in app.js starred:', id)
+    let body = {
+      messageIds: [id],
+      command: "read"
+    }
 
     // send starred to the database and update that message 
     const response = await fetch(`${process.env.REACT_APP_API_URL}/messages`, {
@@ -73,7 +93,7 @@ export default class App extends Component {
     return (
       <div className="App">
       <Toolbar />
-      <Messages messages={this.state.messages} starCallback={this.starCallback}/>
+      <Messages messages={this.state.messages} starCallback={this.starCallback} readCallback={this.readCallback}/>
       <Compose composeMessageCallback={this.composeMessageCallback} />
       </div>
     )
