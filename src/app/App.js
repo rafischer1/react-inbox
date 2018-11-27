@@ -29,7 +29,28 @@ export default class App extends Component {
     console.log("response to POST:", response)
   } 
 
-  async componentDidMount() {
+  starCallback = async (id) => {
+    console.log('in app.js starred:', id)
+    let body = {
+      messageIds: [id],
+      command: "star"
+    }
+
+    // send starred to the database and update that message 
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/messages`, {
+      method: "PATCH",
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      }
+    })
+    console.log(response)
+    this.getMessageState()
+    return true
+  }
+
+  getMessageState = async () => {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/messages`)
     if (response.status === 200) {
       let resJson = await response.json()
@@ -43,11 +64,16 @@ export default class App extends Component {
       throw new Error('Uh oh! I broke on the GET request')
     }
   }
+
+  async componentDidMount() {
+    this.getMessageState()
+  }
+
   render() {
     return (
       <div className="App">
       <Toolbar />
-        <Messages messages={this.state.messages} />
+      <Messages messages={this.state.messages} starCallback={this.starCallback}/>
       <Compose composeMessageCallback={this.composeMessageCallback} />
       </div>
     );
