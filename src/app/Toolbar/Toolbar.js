@@ -10,7 +10,7 @@ export default class Toolbar extends React.Component {
             unread messages
            </p>
 
-          <a className="btn btn-danger">
+          <a href="/" className="btn btn-danger">
             <i className="fa fa-plus"></i>
           </a>
 

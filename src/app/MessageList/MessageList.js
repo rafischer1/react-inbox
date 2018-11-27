@@ -1,9 +1,13 @@
 import React from 'react'
 
 const MessageList = ({messages}) => {
-  return messages.map((el, y) => {
+  
+  return messages.map((el, idx) => {
+  let read = el.read ? "read" : "unread"
+  let selected = el.selected ? "selected" : "unselected"
+  
   return (
-    <div className="row message read">
+   <div className={`row message ${read} ${selected}`} key={idx}>
       <div className="col-xs-1">
         <div className="row">
           <div className="col-xs-2">
@@ -16,14 +20,13 @@ const MessageList = ({messages}) => {
       </div>
       <div className="col-xs-11">
         <a href="/" target="_blank">
-          <div key={y}>
-            &nbsp;&nbsp;&nbsp;&nbsp;{el.subject}
-            {/* <p>{el.body}</p> */}
+          <div >
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            {el.subject}
           </div>
         </a>
       </div>
     </div>
-   
   )
 })
  

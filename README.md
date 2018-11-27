@@ -136,3 +136,21 @@ And when they refresh, the message should still appear (it's persisted on the se
 ### When a user opens the compose form
 And then presses the red compose button
 Then the compose form should close
+
+```js
+// redux partial solution:
+// react-inbox-solution API GET
+export const MESSAGES_REQUEST_STARTED = 'MESSAGES_REQUEST_STARTED'
+export const MESSAGES_REQUEST_SUCCESS = 'MESSAGES_REQUEST_SUCCESS'
+export const getMessages = () => {
+  return async (dispatch) => {
+    dispatch({ type: MESSAGES_REQUEST_STARTED })
+    const response = await request(`/api/messages`)
+    const json = await response.json()
+    dispatch({
+      type: MESSAGES_REQUEST_SUCCESS,
+      messages: json._embedded.messages,
+    })
+  }
+}
+```

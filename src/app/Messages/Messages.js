@@ -3,8 +3,9 @@ import MessageList from '../MessageList/MessageList'
 
 export default class Message extends React.Component {
   render() {
+    let idx = this.props.messages.id
     return (
-      <MessageList messages={this.props.messages} /> 
+      <MessageList key={idx} messages={this.props.messages} /> 
     )
   }
 }
