@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import Toolbar from './Toolbar/Toolbar'
 import Messages from './Messages/Messages'
 import Compose from './Compose/Compose'
-import './App.css';
+import './App.css'
 
 export default class App extends Component {
   constructor(props) {
@@ -21,6 +21,7 @@ export default class App extends Component {
       labels: [],
       body: post.body
     }
+
     const response = await fetch(`${process.env.REACT_APP_API_URL}/messages`, {
       method: "POST",
       mode: "no-cors",
@@ -30,7 +31,7 @@ export default class App extends Component {
   } 
 
   starCallback = async (id) => {
-    console.log('in app.js starred:', id)
+    // console.log('in app.js starred:', id)
     let body = {
       messageIds: [id],
       command: "star"
@@ -47,7 +48,6 @@ export default class App extends Component {
     })
     console.log(response)
     this.getMessageState()
-    return true
   }
 
   getMessageState = async () => {
@@ -76,8 +76,6 @@ export default class App extends Component {
       <Messages messages={this.state.messages} starCallback={this.starCallback}/>
       <Compose composeMessageCallback={this.composeMessageCallback} />
       </div>
-    );
+    )
   }
 }
-
-
