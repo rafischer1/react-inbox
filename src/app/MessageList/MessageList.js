@@ -4,9 +4,11 @@ import Labels from '../Labels/Labels'
 const MessageList = ({messages}) => {
   
   return messages.map((el, idx) => {
+    
   let read = el.read ? "read" : "unread"
   let selected = el.selected ? "selected" : "unselected"
-  
+  let starred = el.starred ? "fa-star" : "fa-star-o"
+
   return (
    <div className={`row message ${read} ${selected}`} key={idx}>
       <div className="col-xs-1">
@@ -15,7 +17,7 @@ const MessageList = ({messages}) => {
             <input type="checkbox" checked={el.selected} />
           </div>
           <div className="col-xs-2">
-            <i className="star fa fa-star-o">&nbsp;&nbsp;&nbsp;&nbsp;</i>
+            <i className={`star fa ${starred}`}>&nbsp;&nbsp;&nbsp;&nbsp;</i>
           </div>
         </div>
       </div>
