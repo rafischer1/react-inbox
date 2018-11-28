@@ -1,20 +1,20 @@
 import React from 'react'
 
-export default class Compose extends React.Component {
+const Compose = ({ composeMessageCallback }) => {
 
-  composeMessage = (ev) => {
+  const composeMessage = (ev) => {
     ev.preventDefault()
     console.log("in compose message comp:", ev.target[0].value)
     let post = {
       subject: ev.target[0].value,
       body: ev.target[1].value
     }
-    this.props.composeMessageCallback(post)
+    composeMessageCallback(post)
   }
-
-  render() {
+  
     return (
-      <form className="form-horizontal well" onSubmit={this.composeMessage}>
+      <div id="composeModal" className="modal fade">
+       <form className="form-horizontal well" onSubmit={composeMessage}>
         <div className="form-group">
           <div className="col-sm-8 col-sm-offset-2">
             <h4>Compose Message</h4>
@@ -36,8 +36,15 @@ export default class Compose extends React.Component {
             <div className="col-sm-8 col-sm-offset-2">
               <input type="submit" value="Send" className="btn btn-primary" />
              </div>
+          <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
-      </form>
+         </form>
+      </div>
     )
-  }
-}
+  
+  
+ }
+
+
+
+export default Compose
