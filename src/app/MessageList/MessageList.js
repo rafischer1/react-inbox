@@ -1,9 +1,13 @@
 import React from 'react'
 import Labels from '../Labels/Labels'
 
-const MessageList = ({messages, starCallback, readCallback}) => {
+const MessageList = ({ messages, starCallback, selectCallback}) => {
   let body
 
+  const toggleSelect = (ev) => {
+    ev.preventDefault()
+    selectCallback(ev.target.id)
+  }
   
   const starFunction = (ev) => {
     ev.stopPropagation()
@@ -16,8 +20,6 @@ const MessageList = ({messages, starCallback, readCallback}) => {
     // readCallback(ev.target.id)
   }
   
-  
-
   return messages.map((el, idx) => {
     const messageRead = (ev) => {
       ev.preventDefault()
@@ -35,18 +37,18 @@ const MessageList = ({messages, starCallback, readCallback}) => {
   console.log("read:", el.read)
 
   return (
-   renderFunction(read, selected, idx, el, readFunction, starred, starFunction, messageRead, body)
+    renderFunction(read, selected, idx, el, readFunction, starred, starFunction, messageRead, body, toggleSelect)
   )
 })
  
 }
 
-const renderFunction = (read, selected, idx, el, readFunction, starred, starFunction, messageRead, body) =>
+const renderFunction = (read, selected, idx, el, readFunction, starred, starFunction, messageRead, body, toggleSelect) =>
   <div className={`row message ${read} ${selected}`} key={idx} >
     <div className="col-xs-1">
       <div className="row">
         <div className="col-xs-2">
-          <input id={el.id} type="checkbox" checked={!!el.selected} onChange={readFunction} />
+          <input id={el.id} type="checkbox" checked={!!el.selected} onChange={toggleSelect} />
         </div>
         <div className="col-xs-2">
           <i id={el.id} className={`star fa ${starred}`} onClick={starFunction}></i>

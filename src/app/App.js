@@ -51,6 +51,69 @@ export default class App extends Component {
     this.getMessageState()
   }
 
+  applyLabelCallback = async (label) => {
+    await this.updateMessages({
+      "messageIds": this.state.messages.filter(message => message.selected).map(message => message.id),
+      "command": "addLabel",
+      "label": label
+    })
+  }
+
+  removeLabelCallback = async (label) => {
+    await this.updateMessages({
+      "messageIds": this.state.messages.filter(message => message.selected).map(message => message.id),
+      "command": "addLabel",
+      "label": label
+    })
+  }
+
+  updateMessages = async (body) => {
+    let putBody = JSON.stringify(body)
+    return await fetch(`${process.env.REACT_APP_API_URL}/messages`, {
+      method: "PUT",
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: putBody
+    })
+  }
+
+  async deleteMessagesCallback(message) {
+    await this.updateMessages({
+      "messageIds": this.state.messages.filter(message => message.selected).map(message => message.id),
+      "command": "delete"
+    })
+
+    const messages = this.state.messages.filter(message => !message.selected)
+    this.setState({ messages })
+  }
+
+  toggleFunc = (message, property) => {
+    const index = this.state.messages.indexOf(message)
+    this.setState({
+      messages: [
+        ...this.state.messages.slice(0, index),
+        { ...message, [property]: !message[property] },
+        ...this.state.messages.slice(index + 1),
+      ]
+    })
+  }
+
+ selectCallback(message) {
+    this.toggleFunc(message, 'selected')
+  }
+
+  toggleSelectAll() {
+    const selectedMessages = this.state.messages.filter(message => message.selected)
+    const selected = selectedMessages.length !== this.state.messages.length
+    this.setState({
+      messages: this.state.messages.map(message => (
+        message.selected !== selected ? { ...message, selected } : message
+      ))
+    })
+  }
+
   readCallback = async (id) => {
     // console.log('in app.js starred:', id)
     let body = {
@@ -93,15 +156,25 @@ export default class App extends Component {
     this.setState({ compose: !this.state.compose })
   }
 
+
   render() {
     return (
       <div className="App">
-        <Toolbar messages={this.state.messages} openComposeCallback={this.openComposeCallback.bind(this)}/>
+        <Toolbar 
+        messages={this.state.messages} 
+        openComposeCallback={this.openComposeCallback.bind(this)}
+        applyLabelCallback={this.applyLabelCallback}
+        deleteMessagesCallback={this.deleteMessagesCallback.bind(this)}
+
+        />
         {this.state.compose ?
           <Compose composeMessageCallback={this.composeMessageCallback} /> :
           null
         }
-      <Messages messages={this.state.messages} starCallback={this.starCallback} readCallback={this.readCallback}/>
+      <Messages messages={this.state.messages} 
+      starCallback={this.starCallback} 
+      selectCallback={this.selectCallback.bind(this)}
+      />
        
       </div>
     )
