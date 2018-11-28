@@ -90,21 +90,20 @@ export default class App extends Component {
   }
 
   toggleFunc = (message, property) => {
-    const index = this.state.messages.indexOf(message)
+    const idx = this.state.messages.indexOf(message)
     this.setState({
       messages: [
-        ...this.state.messages.slice(0, index),
+        ...this.state.messages.slice(0, idx),
         { ...message, [property]: !message[property] },
-        ...this.state.messages.slice(index + 1),
+        ...this.state.messages.slice(idx + 1),
       ]
     })
   }
 
- selectCallback(message) {
-    this.toggleFunc(message, 'selected')
-  }
+ selectCallback = (message) => this.toggleFunc(message, 'selected')
+  
 
-  toggleSelectAll() {
+  selectAllCallback = () => {
     const selectedMessages = this.state.messages.filter(message => message.selected)
     const selected = selectedMessages.length !== this.state.messages.length
     this.setState({
@@ -165,6 +164,7 @@ export default class App extends Component {
         openComposeCallback={this.openComposeCallback.bind(this)}
         applyLabelCallback={this.applyLabelCallback}
         deleteMessagesCallback={this.deleteMessagesCallback.bind(this)}
+        selectAllCallback={this.selectAllCallback}
 
         />
         {this.state.compose ?

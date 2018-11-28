@@ -11,6 +11,7 @@ export default class Toolbar extends React.Component {
   
   selectAllAction = (ev) => {
     console.log("select all action:", ev.target)
+    this.props.selectAllCallback()
   }
 
   markAsRead = (ev) => {
@@ -42,6 +43,7 @@ export default class Toolbar extends React.Component {
 
 
   render() {
+    let allOrNone = "fa-check-o" ? "fa-check-square-o" : "fa-square-o"
     return (
       <div className="row toolbar">
         <div className="col-md-12">
@@ -55,7 +57,7 @@ export default class Toolbar extends React.Component {
           </button>
           
           <button className="btn btn-default" onClick={this.selectAllAction}>
-            <i className="fa fa-check-square-o"></i>
+            <i className={`fa ${allOrNone}`}></i>
           </button>
 
           <button className="btn btn-default" onClick={this.markAsRead}>
