@@ -13,7 +13,7 @@ const Compose = ({ composeMessageCallback }) => {
   }
   
     return (
-      <div id="composeModal" className="modal fade">
+      <div>
        <form className="form-horizontal well" onSubmit={composeMessage}>
         <div className="form-group">
           <div className="col-sm-8 col-sm-offset-2">
@@ -36,13 +36,10 @@ const Compose = ({ composeMessageCallback }) => {
             <div className="col-sm-8 col-sm-offset-2">
               <input type="submit" value="Send" className="btn btn-primary" />
              </div>
-          <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
          </form>
       </div>
     )
-  
-  
  }
 
 

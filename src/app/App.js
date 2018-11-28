@@ -89,16 +89,20 @@ export default class App extends Component {
     this.getMessageState()
   }
 
+  openComposeCallback = () => {
+    this.setState({ compose: !this.state.compose })
+  }
+
   render() {
     return (
       <div className="App">
-      <Toolbar messages={this.state.messages}/>
-      <Messages messages={this.state.messages} starCallback={this.starCallback} readCallback={this.readCallback}/>
-        {
-          this.state.composing ?
-            <Compose sendMessage={this.sendMessage.bind(this)} /> :
-            null
+        <Toolbar messages={this.state.messages} openComposeCallback={this.openComposeCallback.bind(this)}/>
+        {this.state.compose ?
+          <Compose composeMessageCallback={this.composeMessageCallback} /> :
+          null
         }
+      <Messages messages={this.state.messages} starCallback={this.starCallback} readCallback={this.readCallback}/>
+       
       </div>
     )
   }

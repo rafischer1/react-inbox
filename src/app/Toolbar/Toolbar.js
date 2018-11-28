@@ -2,6 +2,12 @@ import React from 'react'
 
 
 export default class Toolbar extends React.Component {
+
+  openCompose = (ev) => {
+    ev.preventDefault()
+    this.props.openComposeCallback()
+  }
+  
   
   selectAllAction = (ev) => {
     console.log("select all action:", ev.target)
@@ -43,7 +49,7 @@ export default class Toolbar extends React.Component {
             unread messages
            </p>
 
-          <button type="button" className="btn btn-danger">
+          <button type="button" className="btn btn-danger" onClick={this.openCompose}>
             <i className="fa fa-plus"></i>
           </button>
           
