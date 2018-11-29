@@ -1,25 +1,37 @@
 import React from 'react'
 
-
 export default class Toolbar extends React.Component {
 
   openCompose = (ev) => {
     ev.preventDefault()
     this.props.openComposeCallback()
   }
-  
-  selectAllAction = () => this.props.selectAllCallback()
-  
+
+  deleteAction = (ev) => {
+    ev.preventDefault()
+    console.log("delete action select:", ev.target)
+    this.props.deleteMessagesCallback()
+  }
+
   markAsRead = (ev) => {
-    console.log("read:", ev.target)
+    // console.log("read:", ev.target)
     this.props.allReadCallback()
   }
 
   markAsUnread = (ev) => {
-    console.log("unread:", ev.target)
+    // console.log("unread:", ev.target)
     this.props.allUnreadCallback()
   }
 
+/****************************
+ * 
+ * Everything above this 
+ * line is working just fine
+ * 
+ ****************************/
+  selectAllAction = () => this.props.selectAllCallback()
+  
+ 
   applyLabelSelect = (ev) => {
     let label = ev.target.value
     // console.log("apply label select:", label)
@@ -30,12 +42,6 @@ export default class Toolbar extends React.Component {
     let label = ev.target.value
     // console.log("remove label select:", label)
     this.props.removeLabelCallback(label)
-  }
-
-  deleteAction = (ev) => {
-    ev.preventDefault()
-    console.log("delete action select:", ev.target)
-    this.props.deleteMessagesCallback()
   }
 
   totalUnread = this.props.messages.filter(message => !message.read).length

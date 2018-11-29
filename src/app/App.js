@@ -70,6 +70,7 @@ export default class App extends Component {
     this.getMessageState()
   }
 
+
    /*****************************
   Delete selected messages works 🙉
   ********************************/
@@ -243,9 +244,9 @@ export default class App extends Component {
         allUnreadCallback={this.allUnreadCallback}
 
         />
-        {this.state.compose ?
-          <Compose composeMessageCallback={this.composeMessageCallback} /> :
-          null
+        {this.state.compose ? <Compose 
+        composeMessageCallback={this.composeMessageCallback} /> 
+        : null
         }
       <Messages messages={this.state.messages} 
       starCallback={this.starCallback} 
