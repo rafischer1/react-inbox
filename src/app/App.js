@@ -48,7 +48,10 @@ export default class App extends Component {
       }
     })
     console.log(response)
-    this.getMessageState()
+    this.setState({
+      ...this.state,
+      messages: this.state.messages
+    })
   }
 
   async applyLabelCallback(label) {
@@ -102,11 +105,12 @@ export default class App extends Component {
     })
   }
 
-  async deleteMessagesCallback() {
+  async deleteMessagesCallback(message) {
     await this.updateMessages({
       "messageIds": this.state.messages.filter(message => message.selected).map(message => message.id),
       "command": "delete"
     })
+
     const messages = this.state.messages.filter(message => !message.selected)
     this.setState({ messages })
   }
@@ -124,6 +128,7 @@ export default class App extends Component {
 
   selectCallback = (message) => {
     this.toggleFunc(message, 'selected')
+
   }
   
   selectAllCallback = () => {
