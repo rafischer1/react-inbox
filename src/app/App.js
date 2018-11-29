@@ -47,17 +47,13 @@ export default class App extends Component {
    /*****************************
   Compose new message 🙈
   ********************************/
-  openComposeCallback = () => {
-    this.setState({ compose: !this.state.compose })
-  }
-
+  openComposeCallback = () => this.setState({ compose: !this.state.compose })
+  
   composeMessageCallback = async (post) => {
-    console.log("in app.js compose f(X):", post.subject, post.body)
     let body = {
       subject: post.subject,
       body: post.body
     }
-    
     const response = await fetch(`${process.env.REACT_APP_API_URL}/messages`, {
       method: "POST",
       body: JSON.stringify(body),
@@ -66,10 +62,8 @@ export default class App extends Component {
         Accept: 'application/json'
       }, 
     })
-    console.log("response to POST:", response)
     this.getMessageState()
   }
-
 
    /*****************************
   Delete selected messages works 🙉
