@@ -30,17 +30,18 @@ export default class Toolbar extends React.Component {
     this.props.removeLabelCallback(label)
   }
 
-  totalUnread = this.props.messages.filter(message => !message.read).length
+  
   selectedCount = this.props.messages.filter(message => message.selected).length
 
 
   render() {
     let allOrNone = "fa-check-o" ? "fa-check-square-o" : "fa-square-o"
+    let totalUnread = this.props.messages.filter(message => !message.read).length
     return (
       <div className="row toolbar">
         <div className="col-md-12">
           <p className="pull-right">
-            <span className="badge badge">{this.totalUnread}</span>
+            <span className="badge badge">{totalUnread}</span>
             unread messages
            </p>
 

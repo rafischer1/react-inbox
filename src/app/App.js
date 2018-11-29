@@ -63,6 +63,7 @@ export default class App extends Component {
         Accept: 'application/json'
       }, 
     })
+    this.openComposeCallback()
     this.getMessageState()
   }
 
@@ -225,7 +226,7 @@ export default class App extends Component {
         />
         {this.state.compose ? <Compose 
         composeMessageCallback={this.composeMessageCallback} /> 
-        : null
+        : false
         }
       <Messages messages={this.state.messages} 
       starCallback={this.starCallback} 
