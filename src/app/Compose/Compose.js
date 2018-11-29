@@ -1,18 +1,14 @@
 import React from 'react'
 
 const Compose = ({ composeMessageCallback }) => {
-
   const composeMessage = (ev) => {
     ev.preventDefault()
-    console.log("in compose message comp:", ev.target[0].value)
     let post = {
       subject: ev.target[0].value,
       body: ev.target[1].value
     }
     composeMessageCallback(post)
-    
   }
-  
     return (
       <div>
        <form className="form-horizontal well" onSubmit={composeMessage}>
@@ -42,7 +38,5 @@ const Compose = ({ composeMessageCallback }) => {
       </div>
     )
  }
-
-
-
+ 
 export default Compose

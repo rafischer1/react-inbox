@@ -2,33 +2,18 @@ import React from 'react'
 
 export default class Toolbar extends React.Component {
 
-  openCompose = (ev) => {
-    ev.preventDefault()
-    this.props.openComposeCallback()
-  }
-
-  deleteAction = (ev) => {
-    ev.preventDefault()
-    console.log("delete action select:", ev.target)
-    this.props.deleteMessagesCallback()
-  }
-
-  markAsRead = (ev) => {
-    // console.log("read:", ev.target)
-    this.props.allReadCallback()
-  }
-
-  markAsUnread = (ev) => {
-    // console.log("unread:", ev.target)
-    this.props.allUnreadCallback()
-  }
-
+  openCompose = (ev) => this.props.openComposeCallback()
+  deleteAction = (ev) => this.props.deleteMessagesCallback()
+  markAsRead = (ev) => this.props.allReadCallback()
+  markAsUnread = (ev) => this.props.allUnreadCallback()
+  
 /****************************
  * 
  * Everything above this 
  * line is working just fine
  * 
  ****************************/
+
   selectAllAction = () => this.props.selectAllCallback()
   
  
