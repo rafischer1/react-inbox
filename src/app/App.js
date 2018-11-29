@@ -12,6 +12,45 @@ export default class App extends Component {
     }
   }
 
+  /*****************************
+  The Mark all as Read and Unread 
+  are good 🙊
+  ********************************/
+  allReadCallback = async () => {
+    await this.updateMessages({
+      "messageIds": this.state.messages.filter(message => message.selected).map(message => message.id),
+      "command": "read",
+      "read": true
+    })
+
+    this.setState({
+      messages: this.state.messages.map(message => (
+        message.selected ? { ...message, read: true } : message
+      ))
+    })
+  }
+
+  allUnreadCallback = async () => {
+    await this.updateMessages({
+      "messageIds": this.state.messages.filter(message => message.selected).map(message => message.id),
+      "command": "read",
+      "read": false
+    })
+
+    this.setState({
+      messages: this.state.messages.map(message => (
+        message.selected ? { ...message, read: false } : message
+      ))
+    })
+  }
+
+   /*****************************
+  Compose new message 🙈
+  ********************************/
+  openComposeCallback = () => {
+    this.setState({ compose: !this.state.compose })
+  }
+
   composeMessageCallback = async (post) => {
     console.log("in app.js compose f(X):", post.subject, post.body)
     let body = {
@@ -31,6 +70,23 @@ export default class App extends Component {
     this.getMessageState()
   }
 
+   /*****************************
+  Delete selected messages works 🙉
+  ********************************/
+  async deleteMessagesCallback(message) {
+    await this.updateMessages({
+      "messageIds": this.state.messages.filter(message => message.selected).map(message => message.id),
+      "command": "delete"
+    })
+
+    const messages = this.state.messages.filter(message => !message.selected)
+    this.setState({ messages })
+  }
+
+/*****************************
+  Star callback needs to update 
+  the state and persist
+  ********************************/
   starCallback = async (id) => {
     // console.log('in app.js starred:', id)
     let body = {
@@ -54,6 +110,12 @@ export default class App extends Component {
     })
   }
 
+  /*****************************
+  Apply and Remove labels are 
+  not working properly
+  "messages undefined"
+  probably sending the wrong data up
+  ********************************/
   async applyLabelCallback(label) {
     await this.updateMessages({
       "messageIds": this.state.messages.filter(message => message.selected).map(message => message.id),
@@ -92,40 +154,13 @@ export default class App extends Component {
     this.setState({ messages })
   }
 
-  updateMessages = async (body) => {
-    body = JSON.stringify(body)
-    console.log('update messages:', body)
-    return await fetch(`${process.env.REACT_APP_API_URL}/messages`, {
-      method: "PATCH",
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: body
-    })
-  }
 
-  async deleteMessagesCallback(message) {
-    await this.updateMessages({
-      "messageIds": this.state.messages.filter(message => message.selected).map(message => message.id),
-      "command": "delete"
-    })
 
-    const messages = this.state.messages.filter(message => !message.selected)
-    this.setState({ messages })
-  }
-
-  toggleFunc = (message, property) => {
-    const idx = this.state.messages.indexOf(message)
-    this.setState({
-      messages: [
-        ...this.state.messages.slice(0, idx),
-        { ...message, [property]: !message[property] },
-        ...this.state.messages.slice(idx + 1),
-      ]
-    })
-  }
-
+  /*****************************
+  Select and select all are a top
+  priority to get finished before 
+  anything else
+  ********************************/
   selectCallback = (message) => {
     this.toggleFunc(message, 'selected')
 
@@ -141,31 +176,31 @@ export default class App extends Component {
     })
   }
 
-  allReadCallback = async () => {
-    await this.updateMessages({
-      "messageIds": this.state.messages.filter(message => message.selected).map(message => message.id),
-      "command": "read",
-      "read": true
-    })
-
-    this.setState({
-      messages: this.state.messages.map(message => (
-        message.selected ? { ...message, read: true } : message
-      ))
+ /*****************************
+ Performance and update functions
+ need refactoring for efficiency 
+  ********************************/
+  updateMessages = async (body) => {
+    body = JSON.stringify(body)
+    console.log('update messages:', body)
+    return await fetch(`${process.env.REACT_APP_API_URL}/messages`, {
+      method: "PATCH",
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: body
     })
   }
 
-  allUnreadCallback = async () => {
-    await this.updateMessages({
-      "messageIds": this.state.messages.filter(message => message.selected).map(message => message.id),
-      "command": "read",
-      "read": false
-    })
-
+  toggleFunc = (message, property) => {
+    const idx = this.state.messages.indexOf(message)
     this.setState({
-      messages: this.state.messages.map(message => (
-        message.selected ? { ...message, read: false } : message
-      ))
+      messages: [
+        ...this.state.messages.slice(0, idx),
+        { ...message, [property]: !message[property] },
+        ...this.state.messages.slice(idx + 1),
+      ]
     })
   }
 
@@ -184,15 +219,16 @@ export default class App extends Component {
     }
   }
 
+  /*****************************
+  Component did mount is ☑️
+  ********************************/
   async componentDidMount() {
     this.getMessageState()
   }
 
-  openComposeCallback = () => {
-    this.setState({ compose: !this.state.compose })
-  }
-
-
+  /*****************************
+  Render below here ⌨️
+  ********************************/
   render() {
     return (
       <div className="App">
