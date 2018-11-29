@@ -45,9 +45,9 @@ export default class App extends Component {
     })
   }
 
-   /*****************************
+  /*****************************
   Compose new message 🙈
-  ********************************/
+  *******************************/
   openComposeCallback = () => this.setState({ compose: !this.state.compose })
   
   composeMessageCallback = async (post) => {
@@ -66,9 +66,9 @@ export default class App extends Component {
     this.getMessageState()
   }
 
-   /*****************************
-  Delete selected messages works 🙉
-  ********************************/
+/*****************************
+  * Delete selected messages works 🙉
+*******************************/
   async deleteMessagesCallback(message) {
     await this.updateMessages({
       "messageIds": this.state.messages.filter(message => message.selected).map(message => message.id),
@@ -80,8 +80,8 @@ export default class App extends Component {
   }
 
 /*****************************
-  Star callback working well! 🆒
-  ********************************/
+  * Star callback working well! 🆒
+*****************************/
   starCallback = (message) => {
     this.updateMessages({
       "messageIds": [message[0].id],
@@ -93,13 +93,12 @@ export default class App extends Component {
   }
 
   /*****************************
-  Apply and Remove labels are 
-  not working properly
-  "messages undefined"
-  probably sending the wrong data up
-  ********************************/
-  async applyLabelCallback(label) {
-    console.log("apply label messages:", this.state.messages, "label:", label)
+  * Apply and Remove labels are 
+  * not working properly
+  * "messages undefined"
+  * probably sending the wrong data up
+  *******************************/
+  applyLabelCallback = async (label) => {
     await this.updateMessages({
       "messageIds": this.state.messages.filter(message => message.selected).map(message => message.id),
       "command": "addLabel",
@@ -114,7 +113,7 @@ export default class App extends Component {
     this.setState({ messages })
   }
 
-  async removeLabelCallback(label) {
+ removeLabelCallback = async (label) => {
     await this.updateMessages({
       "messageIds": this.state.messages.filter(message => message.selected).map(message => message.id),
       "command": "removeLabel",
@@ -175,7 +174,7 @@ export default class App extends Component {
   
   toggleFunc = (message, property) => {
     const idx = this.state.messages.indexOf(message)
-    console.log('toggle func:', idx, message, property)
+    // console.log('toggle func:', idx, message, property)
     this.setState({
       messages: [
         ...this.state.messages.slice(0, idx),
