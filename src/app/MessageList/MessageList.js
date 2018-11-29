@@ -6,9 +6,9 @@ const MessageList = ({ messages, starCallback, selectCallback}) => {
 
   
   const starFunction = (ev) => {
-    ev.stopPropagation()
-    console.log('star func', ev.target)
-    starCallback(ev.target.id)
+    let message = messages.filter(message => message.id === parseInt(ev.target.id))
+    console.log("star funct:", message, ev.target.id)
+    return starCallback(message)
   }
 
   // const readFunction = (ev) => {
@@ -18,29 +18,27 @@ const MessageList = ({ messages, starCallback, selectCallback}) => {
   
   return messages.map((el, idx) => {
 
-    const toggleSelect = (ev) => selectCallback(el)
+  const toggleSelect = (ev) => selectCallback(el)
     
-    const messageRead = (ev) => {
+  const messageRead = (ev) => {
       ev.preventDefault()
       console.log(el.body)
       body = el.body
       return (
-        body
+        el
       )
-    }
+  }
     
   let read = el.read ? "read" : "unread"
   let selected = el.selected ? "selected" : "unselected"
   let starred = el.starred ? "fa-star" : "fa-star-o"
   
-  // console.log("read:", el.read)
-
   return (
     <div className={`row message ${read} ${selected}`} key={idx} >
       <div className="col-xs-1">
         <div className="row">
           <div className="col-xs-2">
-            <input id={el.id} message={el} type="checkbox" checked={!!el.selected} onChange={toggleSelect} />
+            <input el={el} id={el.id} message={el} type="checkbox" checked={!!el.selected} onChange={toggleSelect} />
           </div>
           <div className="col-xs-2">
             <i id={el.id} className={`star fa ${starred}`} onClick={starFunction}></i>

@@ -34,7 +34,7 @@ export default class Toolbar extends React.Component {
  
   applyLabelSelect = (ev) => {
     let label = ev.target.value
-    // console.log("apply label select:", label)
+    console.log("apply label select:", label)
     this.props.applyLabelCallback(label)
   }
 

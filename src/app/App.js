@@ -85,30 +85,16 @@ export default class App extends Component {
   }
 
 /*****************************
-  Star callback needs to update 
-  the state and persist
+  Star callback working well! 🆒
   ********************************/
-  starCallback = async (id) => {
-    // console.log('in app.js starred:', id)
-    let body = {
-      messageIds: [id],
-      command: "star"
-    }
-  
-    // send starred to the database and update that message 
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/messages`, {
-      method: "PATCH",
-      body: JSON.stringify(body),
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      }
+  starCallback = (message) => {
+    this.updateMessages({
+      "messageIds": [message[0].id],
+      "command": "star",
+      "star": [message[0].starred]
     })
-    console.log(response)
-    this.setState({
-      ...this.state,
-      messages: this.state.messages
-    })
+    console.log("going into toggle func", message)
+    this.toggleFunc(message[0], 'starred')
   }
 
   /*****************************
@@ -155,8 +141,6 @@ export default class App extends Component {
     this.setState({ messages })
   }
 
-
-
   /*****************************
   Select and select all are a top
   priority to get finished before 
@@ -164,7 +148,6 @@ export default class App extends Component {
   ********************************/
   selectCallback = (message) => {
     this.toggleFunc(message, 'selected')
-
   }
   
   selectAllCallback = () => {
@@ -183,7 +166,7 @@ export default class App extends Component {
   ********************************/
   updateMessages = async (body) => {
     body = JSON.stringify(body)
-    console.log('update messages:', body)
+    console.log('updateMessages() app.js:', body)
     return await fetch(`${process.env.REACT_APP_API_URL}/messages`, {
       method: "PATCH",
       headers: {
@@ -196,6 +179,7 @@ export default class App extends Component {
 
   toggleFunc = (message, property) => {
     const idx = this.state.messages.indexOf(message)
+    console.log('toggle func:', idx, message, property)
     this.setState({
       messages: [
         ...this.state.messages.slice(0, idx),
