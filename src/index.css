@@ -59,6 +59,11 @@ input {
 .toolbar .label-select {
   width: auto;
   display: inline;
+ 
+}
+
+.label-select {
+  margin-bottom: -1em;
 }
 
 .toolbar select,
@@ -66,7 +71,6 @@ input {
 .toolbar a,
 .toolbar .badge {
   margin-right: .5em;
-  margin-bottom: .5em;
 }
 
 footer.spacer {
