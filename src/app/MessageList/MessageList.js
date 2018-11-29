@@ -20,7 +20,6 @@ const MessageList = ({ messages, starCallback, selectCallback}) => {
 
     const toggleSelect = (ev) => selectCallback(el)
     
-
     const messageRead = (ev) => {
       ev.preventDefault()
       console.log(el.body)
@@ -29,7 +28,7 @@ const MessageList = ({ messages, starCallback, selectCallback}) => {
         body
       )
     }
-
+    
   let read = el.read ? "read" : "unread"
   let selected = el.selected ? "selected" : "unselected"
   let starred = el.starred ? "fa-star" : "fa-star-o"

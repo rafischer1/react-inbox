@@ -10,6 +10,7 @@ const Compose = ({ composeMessageCallback }) => {
       body: ev.target[1].value
     }
     composeMessageCallback(post)
+    
   }
   
     return (
