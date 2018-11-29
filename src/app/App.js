@@ -51,40 +51,62 @@ export default class App extends Component {
     this.getMessageState()
   }
 
-  applyLabelCallback = async (label) => {
+  async applyLabelCallback(label) {
     await this.updateMessages({
       "messageIds": this.state.messages.filter(message => message.selected).map(message => message.id),
       "command": "addLabel",
       "label": label
     })
+
+    const messages = this.state.messages.map(message => (
+      message.selected && !message.labels.includes(label) ?
+        { ...message, labels: [...message.labels, label].sort() } :
+        message
+    ))
+    this.setState({ messages })
   }
 
-  removeLabelCallback = async (label) => {
+  async removeLabelCallback(label) {
     await this.updateMessages({
       "messageIds": this.state.messages.filter(message => message.selected).map(message => message.id),
-      "command": "addLabel",
+      "command": "removeLabel",
       "label": label
     })
+
+    const messages = this.state.messages.map(message => {
+      const idx = message.labels.indexOf(label)
+      if (message.selected && idx > -1) {
+        return {
+          ...message,
+          labels: [
+            ...message.labels.slice(0, idx),
+            ...message.labels.slice(idx + 1)
+          ]
+        }
+      }
+      return message
+    })
+    this.setState({ messages })
   }
 
   updateMessages = async (body) => {
-    let putBody = JSON.stringify(body)
+    body = JSON.stringify(body)
+    console.log('update messages:', body)
     return await fetch(`${process.env.REACT_APP_API_URL}/messages`, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
-      body: putBody
+      body: body
     })
   }
 
-  async deleteMessagesCallback(message) {
+  async deleteMessagesCallback() {
     await this.updateMessages({
       "messageIds": this.state.messages.filter(message => message.selected).map(message => message.id),
       "command": "delete"
     })
-
     const messages = this.state.messages.filter(message => !message.selected)
     this.setState({ messages })
   }
@@ -100,9 +122,10 @@ export default class App extends Component {
     })
   }
 
- selectCallback = (message) => this.toggleFunc(message, 'selected')
+  selectCallback = (message) => {
+    this.toggleFunc(message, 'selected')
+  }
   
-
   selectAllCallback = () => {
     const selectedMessages = this.state.messages.filter(message => message.selected)
     const selected = selectedMessages.length !== this.state.messages.length
@@ -113,23 +136,32 @@ export default class App extends Component {
     })
   }
 
-  readCallback = async (id) => {
-    // console.log('in app.js starred:', id)
-    let body = {
-      messageIds: [id],
-      command: "read"
-    }
-    // send starred to the database and update that message 
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/messages`, {
-      method: "PATCH",
-      body: JSON.stringify(body),
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      }
+  allReadCallback = async () => {
+    await this.updateMessages({
+      "messageIds": this.state.messages.filter(message => message.selected).map(message => message.id),
+      "command": "read",
+      "read": true
     })
-    console.log(response)
-    this.getMessageState()
+
+    this.setState({
+      messages: this.state.messages.map(message => (
+        message.selected ? { ...message, read: true } : message
+      ))
+    })
+  }
+
+  allUnreadCallback = async () => {
+    await this.updateMessages({
+      "messageIds": this.state.messages.filter(message => message.selected).map(message => message.id),
+      "command": "read",
+      "read": false
+    })
+
+    this.setState({
+      messages: this.state.messages.map(message => (
+        message.selected ? { ...message, read: false } : message
+      ))
+    })
   }
 
   getMessageState = async () => {
@@ -163,8 +195,11 @@ export default class App extends Component {
         messages={this.state.messages} 
         openComposeCallback={this.openComposeCallback.bind(this)}
         applyLabelCallback={this.applyLabelCallback}
+        removeLabelCallback={this.removeLabelCallback}
         deleteMessagesCallback={this.deleteMessagesCallback.bind(this)}
         selectAllCallback={this.selectAllCallback}
+        allReadCallback={this.allReadCallback}
+        allUnreadCallback={this.allUnreadCallback}
 
         />
         {this.state.compose ?

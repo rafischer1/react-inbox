@@ -8,34 +8,34 @@ export default class Toolbar extends React.Component {
     this.props.openComposeCallback()
   }
   
+  selectAllAction = () => this.props.selectAllCallback()
   
-  selectAllAction = (ev) => {
-    console.log("select all action:", ev.target)
-    this.props.selectAllCallback()
-  }
-
   markAsRead = (ev) => {
     console.log("read:", ev.target)
+    this.props.allReadCallback()
   }
 
   markAsUnread = (ev) => {
     console.log("unread:", ev.target)
+    this.props.allUnreadCallback()
   }
 
   applyLabelSelect = (ev) => {
     let label = ev.target.value
-    console.log("apply label select:", label)
+    // console.log("apply label select:", label)
     this.props.applyLabelCallback(label)
   }
 
   removeLabelSelect = (ev) => {
     let label = ev.target.value
-    console.log("remove label select:", label)
+    // console.log("remove label select:", label)
+    this.props.removeLabelCallback(label)
   }
 
   deleteAction = (ev) => {
     ev.preventDefault()
     console.log("delete action select:", ev.target)
+    this.props.deleteMessagesCallback()
   }
 
   totalUnread = this.props.messages.filter(message => !message.read).length
