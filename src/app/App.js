@@ -10,8 +10,9 @@ export default class App extends Component {
     this.state = {
       messages: []
     }
+    
   }
-
+  
   /*****************************
   The Mark all as Read and Unread 
   are good 🙊
@@ -54,7 +55,7 @@ export default class App extends Component {
       subject: post.subject,
       body: post.body
     }
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/messages`, {
+    await fetch(`${process.env.REACT_APP_API_URL}/messages`, {
       method: "POST",
       body: JSON.stringify(body),
       headers: {
@@ -98,6 +99,7 @@ export default class App extends Component {
   probably sending the wrong data up
   ********************************/
   async applyLabelCallback(label) {
+    console.log("apply label messages:", this.state.messages, "label:", label)
     await this.updateMessages({
       "messageIds": this.state.messages.filter(message => message.selected).map(message => message.id),
       "command": "addLabel",
@@ -141,7 +143,7 @@ export default class App extends Component {
   anything else
   ********************************/
   selectCallback = (message) => {
-    this.toggleFunc(message, 'selected')
+    this.toggleFunc(message[0], 'selected')
   }
   
   selectAllCallback = () => {
@@ -170,7 +172,7 @@ export default class App extends Component {
       body: body
     })
   }
-
+  
   toggleFunc = (message, property) => {
     const idx = this.state.messages.indexOf(message)
     console.log('toggle func:', idx, message, property)

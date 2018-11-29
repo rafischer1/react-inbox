@@ -18,7 +18,9 @@ const MessageList = ({ messages, starCallback, selectCallback}) => {
   
   return messages.map((el, idx) => {
 
-  const toggleSelect = (ev) => selectCallback(el)
+  const toggleSelect = (ev) => {
+    let message = messages.filter(message => message.id === parseInt(ev.target.id))
+    selectCallback(message)}
     
   const messageRead = (ev) => {
       ev.preventDefault()
