@@ -89,7 +89,6 @@ export default class App extends Component {
       "command": "star",
       "star": [message[0].starred]
     })
-    console.log("going into toggle func", message)
     this.toggleFunc(message[0], 'starred')
   }
 
@@ -142,10 +141,8 @@ export default class App extends Component {
   priority to get finished before 
   anything else
   ********************************/
-  selectCallback = (message) => {
-    this.toggleFunc(message[0], 'selected')
-  }
-  
+  selectCallback = (message) => this.toggleFunc(message[0], 'selected')
+
   selectAllCallback = () => {
     const selectedMessages = this.state.messages.filter(message => message.selected)
     const selected = selectedMessages.length !== this.state.messages.length
@@ -175,7 +172,7 @@ export default class App extends Component {
   
   toggleFunc = (message, property) => {
     const idx = this.state.messages.indexOf(message)
-    // console.log('toggle func:', idx, message, property)
+    
     this.setState({
       messages: [
         ...this.state.messages.slice(0, idx),
@@ -222,7 +219,6 @@ export default class App extends Component {
         selectAllCallback={this.selectAllCallback}
         allReadCallback={this.allReadCallback}
         allUnreadCallback={this.allUnreadCallback}
-
         />
         {this.state.compose ? <Compose 
         composeMessageCallback={this.composeMessageCallback} /> 
@@ -232,7 +228,6 @@ export default class App extends Component {
       starCallback={this.starCallback} 
       selectCallback={this.selectCallback.bind(this)}
       />
-       
       </div>
     )
   }

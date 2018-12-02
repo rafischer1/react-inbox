@@ -1,11 +1,11 @@
 import React from 'react'
 import MessageList from '../MessageList/MessageList'
 
-export default class Message extends React.Component {
+export default class Messages extends React.Component {
+  idx = this.props.messages.id
   render() {
-    let idx = this.props.messages.id
     return (
-      <MessageList key={idx} messages={this.props.messages} starCallback={this.props.starCallback} readCallback={this.props.readCallback} selectCallback={this.props.selectCallback}/> 
+      <MessageList key={this.idx} messages={this.props.messages} starCallback={this.props.starCallback} readCallback={this.props.readCallback} selectCallback={this.props.selectCallback}/> 
     )
   }
 }

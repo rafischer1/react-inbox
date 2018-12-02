@@ -4,17 +4,12 @@ import Labels from '../Labels/Labels'
 const MessageList = ({ messages, starCallback, selectCallback}) => {
   let body
 
-  
   const starFunction = (ev) => {
     let message = messages.filter(message => message.id === parseInt(ev.target.id))
     console.log("star funct:", message, ev.target.id)
     return starCallback(message)
   }
 
-  // const readFunction = (ev) => {
-  //   console.log('checked func', ev.target)
-  //   // readCallback(ev.target.id)
-  // }
   
   return messages.map((el, idx) => {
 
@@ -61,7 +56,5 @@ const MessageList = ({ messages, starCallback, selectCallback}) => {
   )
 }) 
 }
-
-  
 
 export default MessageList

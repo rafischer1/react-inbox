@@ -6,17 +6,8 @@ export default class Toolbar extends React.Component {
   deleteAction = (ev) => this.props.deleteMessagesCallback()
   markAsRead = (ev) => this.props.allReadCallback()
   markAsUnread = (ev) => this.props.allUnreadCallback()
-  
-/****************************
- * 
- * Everything above this 
- * line is working just fine
- * 
- ****************************/
-
   selectAllAction = () => this.props.selectAllCallback()
   
- 
   applyLabelSelect = (ev) => {
     let label = ev.target.value
     console.log("apply label select:", label)
@@ -26,13 +17,15 @@ export default class Toolbar extends React.Component {
 
   removeLabelSelect = (ev) => {
     let label = ev.target.value
-    // console.log("remove label select:", label)
     this.props.removeLabelCallback(label)
   }
 
-  
-
-
+/****************************
+ * 
+ * Everything above this 
+ * line is working just fine 🙈
+ * 
+ ****************************/
 
   render() {
     let selectedCount = this.props.messages.filter(message => message.selected).length
