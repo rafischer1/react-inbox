@@ -161,7 +161,7 @@ export default class App extends Component {
     body = JSON.stringify(body)
     console.log('updateMessages() app.js:', body)
     return await fetch(`${process.env.REACT_APP_API_URL}/messages`, {
-      method: "PATCH",
+      method: "PUT",
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
