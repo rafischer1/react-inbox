@@ -14,7 +14,7 @@ const Label = ({labels}) => {
       labelsArray.push('gschool')
     }
   })
-  console.log("in labels.js:", labelsArray)
-
+  // console.log("in labels.js:", labelsArray)
+  
   return labelsArray.map((label, id) => <span className="label label-warning" key={id} >{label}</span>)}
 export default Label

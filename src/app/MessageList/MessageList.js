@@ -1,5 +1,7 @@
 import React from 'react'
 import Labels from '../Labels/Labels'
+import Body from '../Body/Body'
+
 
 const MessageList = ({ messages, starCallback, selectCallback}) => {
   let body
@@ -19,18 +21,20 @@ const MessageList = ({ messages, starCallback, selectCallback}) => {
     
   const messageRead = (ev) => {
       ev.preventDefault()
-      console.log(el.body)
+      console.log("hi", el.body)
       body = el.body
       return (
         el
       )
   }
-    
-  let read = el.read ? "read" : "unread"
-  let selected = el.selected ? "selected" : "unselected"
-  let starred = el.starred ? "fa-star" : "fa-star-o"
-  
+
+  const read = el.read ? "read" : "unread"
+  const selected = el.selected ? "selected" : "unselected"
+  const starred = el.starred ? "fa-star" : "fa-star-o"
+ 
+
   return (
+   <div>
     <div className={`row message ${read} ${selected}`} key={idx} >
       <div className="col-xs-1">
         <div className="row">
@@ -51,6 +55,11 @@ const MessageList = ({ messages, starCallback, selectCallback}) => {
         </a>
         <div>{body}</div>
       </div>
+      <br />
+      
+  
+    </div>
+    {/* <Body key={el} body={el.body} /> */}
     </div>
 
   )

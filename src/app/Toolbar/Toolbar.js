@@ -3,7 +3,14 @@ import React from 'react'
 export default class Toolbar extends React.Component {
 
   openCompose = (ev) => this.props.openComposeCallback()
-  deleteAction = (ev) => this.props.deleteMessagesCallback()
+  deleteAction = (ev) => {
+    this.props.messages.map((message) => {
+      if (message.selected === true) {
+        this.props.deleteMessagesCallback(message.id);
+      }
+    })
+    
+  }
   markAsRead = (ev) => this.props.allReadCallback()
   markAsUnread = (ev) => this.props.allUnreadCallback()
   selectAllAction = () => this.props.selectAllCallback()

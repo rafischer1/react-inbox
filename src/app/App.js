@@ -10,8 +10,10 @@ export default class App extends Component {
     this.state = {
       messages: []
     }
+    console.log("state:", this.state.messages)
     
   }
+ 
   
   /*****************************
   The Mark all as Read and Unread 
@@ -55,7 +57,8 @@ export default class App extends Component {
       subject: post.subject,
       body: post.body
     }
-    await fetch(`${process.env.REACT_APP_API_URL}/messages`, {
+    let response = await fetch(`${process.env.REACT_APP_API_URL}/messages`, {
+      credentials: "include",
       method: "POST",
       body: JSON.stringify(body),
       headers: {
@@ -63,6 +66,7 @@ export default class App extends Component {
         Accept: 'application/json'
       }, 
     })
+    console.log("post route response:", response)
     this.openComposeCallback()
     this.getMessageState()
   }
@@ -70,15 +74,18 @@ export default class App extends Component {
 /*****************************
   * Delete selected messages works 🙉
 *******************************/
-  async deleteMessagesCallback(message) {
-    await this.updateMessages({
-      "messageIds": this.state.messages.filter(message => message.selected).map(message => message.id),
-      "command": "delete"
-    })
-
-    const messages = this.state.messages.filter(message => !message.selected)
-    this.setState({ messages })
-  }
+  async deleteMessagesCallback(id) {
+    let response = await fetch(`${process.env.REACT_APP_API_URL}/messages/${id}`, {
+      "method": "DELETE",
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      }, 
+    })  
+    if (response.status === 200 ) {
+      this.getMessageState();
+    }
+}
 
 /*****************************
   * Star callback working well! 🆒
@@ -137,9 +144,7 @@ export default class App extends Component {
   }
 
   /*****************************
-  Select and select all are a top
-  priority to get finished before 
-  anything else
+  Select and select all 
   ********************************/
   selectCallback = (message) => this.toggleFunc(message[0], 'selected')
 
@@ -158,16 +163,16 @@ export default class App extends Component {
  need refactoring for efficiency 
   ********************************/
   updateMessages = async (body) => {
-    body = JSON.stringify(body)
-    console.log('updateMessages() app.js:', body)
-    return await fetch(`${process.env.REACT_APP_API_URL}/messages`, {
-      method: "PUT",
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: body
-    })
+    // body = JSON.stringify(body)
+    // console.log('updateMessages() app.js:', body)
+    // return await fetch(`${process.env.REACT_APP_API_URL}/messages`, {
+    //   method: "PUT",
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'Accept': 'application/json',
+    //   },
+    //   body: body
+    // })
   }
   
   toggleFunc = (message, property) => {
@@ -184,8 +189,10 @@ export default class App extends Component {
 
   getMessageState = async () => {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/messages`)
+   
     if (response.status === 200) {
       let resJson = await response.json()
+      console.log("get message in app.js:", resJson)
       // console.log('resJson', response)
       this.setState({
         ...this.state,
