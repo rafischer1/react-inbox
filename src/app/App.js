@@ -53,20 +53,20 @@ export default class App extends Component {
   openComposeCallback = () => this.setState({ compose: !this.state.compose })
   
   composeMessageCallback = async (post) => {
-    let body = {
+    let postBody = {
       subject: post.subject,
       body: post.body
     }
     let response = await fetch(`${process.env.REACT_APP_API_URL}/messages`, {
-      credentials: "include",
       method: "POST",
-      body: JSON.stringify(body),
+      body: JSON.stringify(postBody),
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json'
       }, 
     })
-    console.log("post route response:", response)
+    let resJson = await response.json()
+    console.log("post route response:", resJson)
     this.openComposeCallback()
     this.getMessageState()
   }

@@ -1,5 +1,14 @@
+body {
+  background-color: #d8e1df;
+}
+
 .App {
+  background-color: #ffffffb6;
   margin: 5%;
+  border: 4px double #7b7b7b;
+  padding: 2%;
+  border-radius: 5px;
+  box-shadow: 2px 1px #2d1818;
 }
 
 input {
@@ -11,7 +20,7 @@ input {
   padding-top: 8px;
   padding-bottom: 8px;
   cursor: pointer;
-  border-bottom: 1px solid #efefef;
+  border-bottom: 1px solid #15359f;
 }
 
 .message a {
