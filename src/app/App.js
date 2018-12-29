@@ -162,16 +162,25 @@ export default class App extends Component {
  need refactoring for efficiency 
   ********************************/
   updateMessages = async (body) => {
-    // body = JSON.stringify(body)
-    // console.log('updateMessages() app.js:', body)
-    // return await fetch(`${process.env.REACT_APP_API_URL}/messages`, {
-    //   method: "PUT",
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Accept': 'application/json',
-    //   },
-    //   body: body
-    // })
+    console.log("updateMEssages", body.messageIds)
+    body.messageIds.map(async (id) => {
+      let editBody = {
+        ID: id,
+        body: body.label
+      }
+      console.log("editBody update:", editBody)
+      return await fetch(`${process.env.REACT_APP_API_URL}/messages/${id}`, {
+        method: "PUT",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: editBody,
+      })
+    })
+    body = JSON.stringify(body)
+    console.log('updateMessages() app.js:', body)
+  
   }
   
   toggleFunc = (message, property) => {
