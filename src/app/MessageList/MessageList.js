@@ -7,7 +7,7 @@ const MessageList = ({ messages, starCallback, selectCallback}) => {
   let body
 
   const starFunction = (ev) => {
-    let message = messages.filter(message => message.id === parseInt(ev.target.id))
+    let message = messages.filter(message => message.id === +(ev.target.id))
     console.log("star funct:", message, ev.target.id)
     return starCallback(message)
   }
@@ -16,7 +16,7 @@ const MessageList = ({ messages, starCallback, selectCallback}) => {
   return messages.map((el, idx) => {
 
   const toggleSelect = (ev) => {
-    let message = messages.filter(message => message.id === parseInt(ev.target.id))
+    let message = messages.filter(message => message.id === +(ev.target.id))
     selectCallback(message)}
     
   const messageRead = (ev) => {
