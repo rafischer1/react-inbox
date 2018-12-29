@@ -18,3 +18,11 @@ Frontend Site URL:
 # React-router Setup
 
 `npm install react-router-dom`
+
+### Build 🧰
+
+`npm run build`
+
+`cd build`
+
+`vim CNAME && i react-inbox-FE.surge.sh :wq`
