@@ -105,11 +105,16 @@ export default class App extends Component {
   * probably sending the wrong data up
   *******************************/
   applyLabelCallback = async (label) => {
-    await this.updateMessages({
-      "messageIds": this.state.messages.filter(message => message.selected).map(message => message.id),
-      "command": "addLabel",
-      "label": label
-    })
+    await this.updateMessages({ messageIds: this.state.messages
+        .filter(message => message.selected)
+        .map(message => {
+          return message.id;
+        }), 
+        command: "addLabel", 
+        label: label
+       });
+
+       //"{dev, personal}"
 
     const messages = this.state.messages.map(message => (
       message.selected && !message.labels.includes(label) ?
@@ -166,20 +171,23 @@ export default class App extends Component {
     body.messageIds.map(async (id) => {
       let editBody = {
         ID: id,
-        body: body.label
+        Labels: `{${body.label}}`
       }
-      console.log("editBody update:", editBody)
-      return await fetch(`${process.env.REACT_APP_API_URL}/messages/${id}`, {
-        method: "PUT",
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: editBody,
-      })
+      console.log('updateMessages() body:', JSON.stringify(editBody))
+      return await fetch(
+        `${process.env.REACT_APP_API_URL}/messages/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+          },
+          body: JSON.stringify(editBody)
+        }
+      );
     })
-    body = JSON.stringify(body)
-    console.log('updateMessages() app.js:', body)
+    
+  
   
   }
   
