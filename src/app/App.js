@@ -65,8 +65,7 @@ export default class App extends Component {
         Accept: 'application/json'
       }, 
     })
-    let resJson = await response.json()
-    console.log("post route response:", resJson)
+    console.log("POST response:", response)
     this.openComposeCallback()
     this.getMessageState()
   }
