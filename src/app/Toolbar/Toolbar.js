@@ -24,7 +24,8 @@ export default class Toolbar extends React.Component {
 
   removeLabelSelect = (ev) => {
     let label = ev.target.value
-    this.props.removeLabelCallback(label)
+    ev.target.selectedIndex = 0;
+    this.props.removeLabelCallback(label, ev.target.selectedIndex)
   }
 
 /****************************

@@ -57,14 +57,17 @@ export default class App extends Component {
       subject: post.subject,
       body: post.body
     }
-    let response = await fetch(`${process.env.API_URL}/messages`, {
-      method: "POST",
-      body: JSON.stringify(postBody),
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      }, 
-    })
+    let response = await fetch(
+      `http://localhost:3003/messages`,
+      {
+        method: "POST",
+        body: JSON.stringify(postBody),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        }
+      }
+    );
     console.log("POST response:", response)
     this.openComposeCallback()
     this.getMessageState()
@@ -74,13 +77,16 @@ export default class App extends Component {
   * Delete selected messages works 🙉
 *******************************/
   async deleteMessagesCallback(id) {
-    let response = await fetch(`${process.env.API_URL}/messages/${id}`, {
-      "method": "DELETE",
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      }, 
-    })  
+    let response = await fetch(
+      `http://localhost:3003/messages/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        }
+      }
+    );  
     if (response.status === 200 ) {
       this.getMessageState();
     }
@@ -111,35 +117,55 @@ export default class App extends Component {
           return message.id;
         }), 
         command: "addLabel", 
-        label: label
+      label: this.state.messages
+        .filter(message => message.selected)
+        .map(message => {
+          console.log("message:", message.labels, "message.labels + label:", `${message.labels}, ${label}`);
+          return `${message.labels}, ${label}`;
+        })
        });
 
-       //"{dev, personal}"
-
-    const messages = this.state.messages.map(message => (
-      message.selected && !message.labels.includes(label) ?
-        { ...message, labels: [...message.labels, label].sort() } :
-        message
-    ))
+    const messages = this.state.messages.map(message =>
+      message.selected && !message.labels.includes(label)
+        ? { ...message, labels: `${message.labels}, ${label}` }
+        : message
+    );
     this.setState({ messages })
   }
 
  removeLabelCallback = async (label) => {
+   let removeLabels = ""
     await this.updateMessages({
-      "messageIds": this.state.messages.filter(message => message.selected).map(message => message.id),
-      "command": "removeLabel",
-      "label": label
-    })
+      messageIds: this.state.messages
+        .filter(message => message.selected)
+        .map(message => message.id),
+      command: "removeLabel",
+      label: this.state.messages
+        .filter(message => message.selected)
+        .map(message => {
+          console.log("message.labels before:", message.labels);
+          if (message.labels.includes("personal")) {
+            removeLabels = message.labels.replace("personal", " ");
+          }
+          if (message.labels.includes("dev")) {
+            console.log("message.labels dev before replace:", message.labels)
+            removeLabels = message.labels.replace("dev", " ");
+            console.log("message.labels dev before replace:", removeLabels);
+          }
+          if (message.labels.includes("gschool")) {
+            removeLabels = message.labels.replace("gschool", " ");
+          }
+          console.log("label removed:", removeLabels)
+          return removeLabels;
+        })
+    });
 
     const messages = this.state.messages.map(message => {
       const idx = message.labels.indexOf(label)
       if (message.selected && idx > -1) {
         return {
           ...message,
-          labels: [
-            ...message.labels.slice(0, idx),
-            ...message.labels.slice(idx + 1)
-          ]
+          labels: removeLabels
         }
       }
       return message
@@ -171,11 +197,11 @@ export default class App extends Component {
     body.messageIds.map(async (id) => {
       let editBody = {
         ID: id,
-        Labels: `{${body.label}}`
+        Labels: `${body.label}`
       }
       console.log('updateMessages() body:', JSON.stringify(editBody))
       return await fetch(
-        `${process.env.API_URL}/messages/${id}`,
+        `http://localhost:3003/messages/${id}`,
         {
           method: "PUT",
           headers: {
@@ -205,7 +231,7 @@ export default class App extends Component {
 
   getMessageState = async () => {
     console.log("in get messages state")
-    const response = await fetch(`https://fischer-go-inbox.herokuapp.com/messages`);
+    const response = await fetch(`http://localhost:3003/messages`);
     console.log("second log:", response)
     if (response.status === 200) {
       let resJson = await response.json()

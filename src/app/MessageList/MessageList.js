@@ -24,13 +24,20 @@ const MessageList = ({ messages, starCallback, selectCallback}) => {
       console.log("hi", el.body)
       body = el.body
       return (
-        el
+       <Body body={el.body} />
       )
+  }
+
+  const style = {
+    seen: {
+      "display": "none",
+    }
   }
 
   const read = el.read ? "read" : "unread"
   const selected = el.selected ? "selected" : "unselected"
   const starred = el.starred ? "fa-star" : "fa-star-o"
+  
  
 
   return (
@@ -59,7 +66,7 @@ const MessageList = ({ messages, starCallback, selectCallback}) => {
       
   
     </div>
-    {/* <Body key={el} body={el.body} /> */}
+    {/* <Body style={style.seen} key={el} body={el.body} /> */}
     </div>
 
   )
