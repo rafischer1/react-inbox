@@ -6,14 +6,17 @@ Frontend Site URL:
 
 `npm start`
 
+### The server is a RESTful API built in Go and deployed to Heroku
+
 [React-Inbox Backend Heroku](https://fischer-go-inbox.herokuapp.com/)
 
 [React-Inbox Backend Github](https://github.com/rafischer1/react_inbox_db)
 
-### An App component
-### A Messages (or MessageList) component
-### A Message component
-### A Toolbar component
+--- 
+#### An App component
+#### A Messages (or MessageList) component
+#### A Message component
+#### A Toolbar component
 
 # React-router Setup
 
