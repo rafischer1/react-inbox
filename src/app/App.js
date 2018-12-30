@@ -57,7 +57,7 @@ export default class App extends Component {
       subject: post.subject,
       body: post.body
     }
-    let response = await fetch(`${process.env.REACT_APP_API_URL}/messages`, {
+    let response = await fetch(`${process.env.API_URL}/messages`, {
       method: "POST",
       body: JSON.stringify(postBody),
       headers: {
@@ -74,7 +74,7 @@ export default class App extends Component {
   * Delete selected messages works 🙉
 *******************************/
   async deleteMessagesCallback(id) {
-    let response = await fetch(`${process.env.REACT_APP_API_URL}/messages/${id}`, {
+    let response = await fetch(`${process.env.API_URL}/messages/${id}`, {
       "method": "DELETE",
       headers: {
         'Content-Type': 'application/json',
@@ -175,7 +175,7 @@ export default class App extends Component {
       }
       console.log('updateMessages() body:', JSON.stringify(editBody))
       return await fetch(
-        `${process.env.REACT_APP_API_URL}/messages/${id}`,
+        `${process.env.API_URL}/messages/${id}`,
         {
           method: "PUT",
           headers: {
@@ -204,8 +204,9 @@ export default class App extends Component {
   }
 
   getMessageState = async () => {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/messages`)
-   
+    console.log("in get messages state")
+    const response = await fetch(`https://fischer-go-inbox.herokuapp.com/messages`);
+    console.log("second log:", response)
     if (response.status === 200) {
       let resJson = await response.json()
       console.log("get message in app.js:", resJson)
