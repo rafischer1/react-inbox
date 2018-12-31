@@ -58,7 +58,7 @@ export default class App extends Component {
       body: post.body
     }
     let response = await fetch(
-      `http://localhost:3003/messages`,
+      `https://fischer-go-inbox.herokuapp.com/messages`,
       {
         method: "POST",
         body: JSON.stringify(postBody),
@@ -78,7 +78,7 @@ export default class App extends Component {
 *******************************/
   async deleteMessagesCallback(id) {
     let response = await fetch(
-      `http://localhost:3003/messages/${id}`,
+      `https://fischer-go-inbox.herokuapp.com/messages/${id}`,
       {
         method: "DELETE",
         headers: {
@@ -201,7 +201,7 @@ export default class App extends Component {
       }
       console.log('updateMessages() body:', JSON.stringify(editBody))
       return await fetch(
-        `http://localhost:3003/messages/${id}`,
+        `https://fischer-go-inbox.herokuapp.com/messages/${id}`,
         {
           method: "PUT",
           headers: {
@@ -231,7 +231,7 @@ export default class App extends Component {
 
   getMessageState = async () => {
     console.log("in get messages state")
-    const response = await fetch(`http://localhost:3003/messages`);
+    const response = await fetch(`https://fischer-go-inbox.herokuapp.com/messages`);
     console.log("second log:", response)
     if (response.status === 200) {
       let resJson = await response.json()

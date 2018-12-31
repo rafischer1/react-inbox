@@ -28,11 +28,7 @@ const MessageList = ({ messages, starCallback, selectCallback}) => {
       )
   }
 
-  const style = {
-    seen: {
-      "display": "none",
-    }
-  }
+
 
   const read = el.read ? "read" : "unread"
   const selected = el.selected ? "selected" : "unselected"
@@ -57,16 +53,18 @@ const MessageList = ({ messages, starCallback, selectCallback}) => {
         <a href="#!" onClick={messageRead}>
           <div>
             <Labels labels={el.labels} />
-            {el.subject}
+              {el.subject} <Body key={el} body={el.body} />
+            
           </div>
-        </a>
-        <div>{body}</div>
+            
+          </a>  
+          <div> </div>
       </div>
+        
       <br />
       
   
     </div>
-    {/* <Body style={style.seen} key={el} body={el.body} /> */}
     </div>
 
   )

@@ -1,12 +1,14 @@
 import React from 'react'
+import {DropdownButton, MenuItem} from 'react-bootstrap'
+
 
 const Body = ({body}) =>  {
-  const style = {
-    "margin": "1% 0 1% 5%",
-    "padding": "2%"
-  }
-
-  return <div style={style}>{body}</div>
+  return <span class="messagesBody">
+    <DropdownButton bsStyle="default right" bsSize="small" title="Message" noCaret id="dropdown-no-caret">
+      <MenuItem divider />
+             <span class="readBody" eventKey="2">{body}</span>
+           </DropdownButton>
+         </span>;
 }
   
 export default Body

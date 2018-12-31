@@ -1,6 +1,6 @@
 # React-Inbox 📬
 
-Frontend Site URL:
+Frontend Site URL: http://react-inbox-fe.surge.sh/
 
 `npm install`
 

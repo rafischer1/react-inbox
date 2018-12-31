@@ -31,6 +31,17 @@ input {
   text-decoration: none;
 }
 
+.messagesBody {
+  display: inline;
+  color:teal;
+}
+
+.readBody {
+  width: auto;
+  color: rgb(68, 68, 68);
+ margin: 5%;
+}
+
 .message + .message {
   border-top: 1px solid #efefef;
 }
