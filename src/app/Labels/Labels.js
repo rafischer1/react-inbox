@@ -1,7 +1,6 @@
 import React from 'react'
 const Label = ({labels}) => {
   // labels coming back from go backend as one long string - split then map
-  console.log("labels:", labels, typeof labels)
   let labelsArray = []
   if (labels.includes(undefined)) {
         labels.replace(undefined, " ")

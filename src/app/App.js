@@ -58,7 +58,7 @@ export default class App extends Component {
       body: post.body
     }
     let response = await fetch(
-      `https://fischer-go-inbox.herokuapp.com/messages`,
+      `http://localhost:3003/messages`,
       {
         method: "POST",
         body: JSON.stringify(postBody),
@@ -78,7 +78,7 @@ export default class App extends Component {
 *******************************/
   async deleteMessagesCallback(id) {
     let response = await fetch(
-      `https://fischer-go-inbox.herokuapp.com/messages/${id}`,
+      `http://localhost:3003/messages/${id}`,
       {
         method: "DELETE",
         headers: {
@@ -106,11 +106,11 @@ export default class App extends Component {
 
   /*****************************
   * Apply and Remove labels are 
-  * not working properly
-  * "messages undefined"
-  * probably sending the wrong data up
+  *working but adding a lot of empty string
+  works "ok"
   *******************************/
   applyLabelCallback = async (label) => {
+    let newLabels = ""
     await this.updateMessages({ messageIds: this.state.messages
         .filter(message => message.selected)
         .map(message => {
@@ -120,8 +120,16 @@ export default class App extends Component {
       label: this.state.messages
         .filter(message => message.selected)
         .map(message => {
-          console.log("message:", message.labels, "message.labels + label:", `${message.labels}, ${label}`);
-          return `${message.labels}, ${label}`;
+          if (!message.labels.includes("personal")) {
+            newLabels = `${message.labels}, personal`;
+          }
+          if (!message.labels.includes("dev")) {
+            newLabels = `${message.labels}, dev`;
+          }
+          if (!message.labels.includes("gschool")) {
+            newLabels = `${message.labels}, gschool`;
+          }
+          return newLabels;
         })
        });
 
@@ -201,7 +209,7 @@ export default class App extends Component {
       }
       console.log('updateMessages() body:', JSON.stringify(editBody))
       return await fetch(
-        `https://fischer-go-inbox.herokuapp.com/messages/${id}`,
+        `http://localhost:3003/messages/${id}`,
         {
           method: "PUT",
           headers: {
@@ -231,7 +239,7 @@ export default class App extends Component {
 
   getMessageState = async () => {
     console.log("in get messages state")
-    const response = await fetch(`https://fischer-go-inbox.herokuapp.com/messages`);
+    const response = await fetch(`http://localhost:3003/messages`);
     console.log("second log:", response)
     if (response.status === 200) {
       let resJson = await response.json()
