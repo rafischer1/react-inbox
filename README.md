@@ -2,6 +2,8 @@
 
 Frontend Site URL: http://react-inbox-fe.surge.sh/
 
+> There may be an issue with the build for the backend deployed on Heroku - it will often work for a single session and then on revisit CORS issues will happen...I'm currently working on fixing this 'bug' with the go build to Heroku
+
 `npm install`
 
 `npm start`
