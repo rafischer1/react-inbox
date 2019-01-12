@@ -115,19 +115,15 @@ export default class App extends Component {
       label: this.state.messages
         .filter(message => message.selected)
         .map(message => {
-
-          console.log("label:", label, "message:", message, "bool:", message.labels.includes("personal"));
-          if (message.labels.includes("personal") === false) {
-            console.log('personal')
+          if (label === 'personal' && message.labels.includes("personal") === false) {
             return newLabels = message.labels + 'personal';
           }
-          else if (message.labels.includes("dev") === false) {
+          else if (label === 'dev' && message.labels.includes("dev") === false) {
             return newLabels = message.labels + 'dev';
           }
-          else if (message.labels.includes("gschool") === false) {
+          else if (label === 'gschool' && message.labels.includes("gschool") === false) {
             return newLabels = message.labels + 'gschool';
           }
-          console.log("newLabels:", newLabels)
           return newLabels;
         })
        });
@@ -150,13 +146,11 @@ export default class App extends Component {
       label: this.state.messages
         .filter(message => message.selected)
         .map(message => {
-          if (message.labels.includes("personal")) {
+          if (label === "personal" && message.labels.includes("personal")) {
             return removeLabels = message.labels.replace("personal", " ");
-          }
-          else if (message.labels.includes("dev")) {
+          } else if (label === 'dev' && message.labels.includes("dev")) {
             return removeLabels = message.labels.replace("dev", " ");
-          }
-          else if (message.labels.includes("gschool")) {
+          } else if (label === 'gschool' && message.labels.includes("gschool")) {
             return removeLabels = message.labels.replace("gschool", " "); 
           }
           return removeLabels;
@@ -201,13 +195,13 @@ export default class App extends Component {
     if (body.label === undefined) {
       editBodyLabel = ''
     } else {
-      editBodyLabel = body.label
+      editBodyLabel = body.label[0]
     }
 
     body.messageIds.map(async (id) => {
       let editBody = {
         ID: id,
-        Labels: body.label[0],
+        Labels: editBodyLabel,
         Read: body.read
       }
       console.log('updateMessages() body:', JSON.stringify(editBody))
