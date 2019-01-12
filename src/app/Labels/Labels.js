@@ -3,7 +3,7 @@ const Label = ({labels}) => {
   // labels coming back from go backend as one long string - split then map
   let labelsArray = []
   if (labels.includes(undefined)) {
-        labels.replace(undefined, " ")
+        labels.replace(undefined, "")
       }
       if (labels.includes('personal')) {
         labelsArray.push('personal')

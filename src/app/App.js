@@ -58,7 +58,7 @@ export default class App extends Component {
       body: post.body
     }
     let response = await fetch(
-      `http://localhost:3003/messages`,
+      `https://fischer-go-inbox.herokuapp.com/messages`,
       {
         method: "POST",
         body: JSON.stringify(postBody),
@@ -78,7 +78,7 @@ export default class App extends Component {
 *******************************/
   async deleteMessagesCallback(id) {
     let response = await fetch(
-      `http://localhost:3003/messages/${id}`,
+      `https://fischer-go-inbox.herokuapp.com/messages/${id}`,
       {
         method: "DELETE",
         headers: {
@@ -96,11 +96,6 @@ export default class App extends Component {
   * Star callback working well! 🆒
 *****************************/
   starCallback = (message) => {
-    this.updateMessages({
-      "messageIds": [message[0].id],
-      "command": "star",
-      "star": [message[0].starred]
-    })
     this.toggleFunc(message[0], 'starred')
   }
 
@@ -120,22 +115,26 @@ export default class App extends Component {
       label: this.state.messages
         .filter(message => message.selected)
         .map(message => {
-          if (!message.labels.includes("personal")) {
-            newLabels = `${message.labels}, personal`;
+
+          console.log("label:", label, "message:", message, "bool:", message.labels.includes("personal"));
+          if (message.labels.includes("personal") === false) {
+            console.log('personal')
+            return newLabels = message.labels + 'personal';
           }
-          if (!message.labels.includes("dev")) {
-            newLabels = `${message.labels}, dev`;
+          else if (message.labels.includes("dev") === false) {
+            return newLabels = message.labels + 'dev';
           }
-          if (!message.labels.includes("gschool")) {
-            newLabels = `${message.labels}, gschool`;
+          else if (message.labels.includes("gschool") === false) {
+            return newLabels = message.labels + 'gschool';
           }
+          console.log("newLabels:", newLabels)
           return newLabels;
         })
        });
 
     const messages = this.state.messages.map(message =>
       message.selected && !message.labels.includes(label)
-        ? { ...message, labels: `${message.labels}, ${label}` }
+        ? { ...message, labels: message.labels + label }
         : message
     );
     this.setState({ messages })
@@ -151,19 +150,15 @@ export default class App extends Component {
       label: this.state.messages
         .filter(message => message.selected)
         .map(message => {
-          console.log("message.labels before:", message.labels);
           if (message.labels.includes("personal")) {
-            removeLabels = message.labels.replace("personal", " ");
+            return removeLabels = message.labels.replace("personal", " ");
           }
-          if (message.labels.includes("dev")) {
-            console.log("message.labels dev before replace:", message.labels)
-            removeLabels = message.labels.replace("dev", " ");
-            console.log("message.labels dev before replace:", removeLabels);
+          else if (message.labels.includes("dev")) {
+            return removeLabels = message.labels.replace("dev", " ");
           }
-          if (message.labels.includes("gschool")) {
-            removeLabels = message.labels.replace("gschool", " ");
+          else if (message.labels.includes("gschool")) {
+            return removeLabels = message.labels.replace("gschool", " "); 
           }
-          console.log("label removed:", removeLabels)
           return removeLabels;
         })
     });
@@ -201,15 +196,23 @@ export default class App extends Component {
  need refactoring for efficiency 
   ********************************/
   updateMessages = async (body) => {
-    console.log("updateMEssages", body.messageIds)
+    console.log("updateMEssages", body)
+    let editBodyLabel = ''
+    if (body.label === undefined) {
+      editBodyLabel = ''
+    } else {
+      editBodyLabel = body.label
+    }
+
     body.messageIds.map(async (id) => {
       let editBody = {
         ID: id,
-        Labels: `${body.label}`
+        Labels: body.label[0],
+        Read: body.read
       }
       console.log('updateMessages() body:', JSON.stringify(editBody))
       return await fetch(
-        `http://localhost:3003/messages/${id}`,
+        `https://fischer-go-inbox.herokuapp.com/messages/${id}`,
         {
           method: "PUT",
           headers: {
@@ -239,7 +242,7 @@ export default class App extends Component {
 
   getMessageState = async () => {
     console.log("in get messages state")
-    const response = await fetch(`http://localhost:3003/messages`);
+    const response = await fetch(`https://fischer-go-inbox.herokuapp.com/messages`);
     console.log("second log:", response)
     if (response.status === 200) {
       let resJson = await response.json()
